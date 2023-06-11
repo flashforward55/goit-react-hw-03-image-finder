@@ -1,3 +1,31 @@
-export const Loader = () => {
-  return <div>Loading...</div>;
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Bars } from 'react-loader-spinner';
+import styled from 'styled-components';
+
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+export const Loader = ({ type, color, height, width }) => (
+  <LoaderWrapper>
+    <Bars type={type} color={color} height={height} width={width} />
+  </LoaderWrapper>
+);
+
+Loader.propTypes = {
+  type: PropTypes.string,
+  color: PropTypes.string,
+  height: PropTypes.number,
+  width: PropTypes.number,
+};
+
+Loader.defaultProps = {
+  type: 'TailSpin',
+  color: '#3f51b5',
+  height: 80,
+  width: 80,
 };
