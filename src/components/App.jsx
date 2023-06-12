@@ -56,7 +56,7 @@ class App extends Component {
     try {
       this.setState({ isLoading: true });
       const response = await axios.get(
-        `${BASE_URL}?q=${searchQuery}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+        `${BASE_URL}?q=${searchQuery}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=15`
       );
       if (response.data.hits.length === 0) {
         // No results found
@@ -98,6 +98,8 @@ class App extends Component {
       noResultsError,
     } = this.state;
 
+    const showLoadMoreButton = images.length >= 15; // Check if there are 15 or more images
+
     return (
       <AppContainer>
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
@@ -107,7 +109,7 @@ class App extends Component {
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
         {isLoading && <Loader />}
-        {images.length > 0 && !isLoading && (
+        {showLoadMoreButton && !isLoading && (
           <Button onLoadMore={this.handleLoadMore} />
         )}
         {showModal && (
