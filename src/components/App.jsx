@@ -7,7 +7,7 @@ import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Loader from './Loader';
-import { Modal } from './Modal';
+import Modal from './Modal';
 
 const API_KEY = '35140926-fd12774c1839d7d0854ca625c';
 const BASE_URL = 'https://pixabay.com/api/';
