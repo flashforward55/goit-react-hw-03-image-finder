@@ -26,3 +26,8 @@ export const ButtononLoadMore = styled.button`
     background-color: #303f9f;
   }
 `;
+
+export const ButtononLoadMoreFlex = styled.div`
+  display: flex;
+  justify-content: center;
+`;
