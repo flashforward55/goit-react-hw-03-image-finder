@@ -21,27 +21,30 @@ class App extends Component {
       isLoading: false,
       showModal: false,
       selectedImage: '',
-      searchQueryError: false, // Флаг ошибки пустого поля поиска
+      searchQueryError: false,
+      noResultsError: false, // Flag for no results error
     };
-  }
-
-  componentDidMount() {
-    // Код, который выполняется после монтирования компонента
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // Код, который выполняется после обновления компонента
   }
 
   handleSearchSubmit = e => {
     e.preventDefault();
-    const searchQuery = e.target.elements.searchQuery.value.trim(); // Убираем лишние пробелы
+    const searchQuery = e.target.elements.searchQuery.value.trim();
     if (searchQuery === '') {
-      // Если поле поиска пустое, устанавливаем флаг ошибки
-      this.setState({ images: [], currentPage: 1, searchQueryError: true });
+      this.setState({
+        images: [],
+        currentPage: 1,
+        searchQueryError: true,
+        noResultsError: false, // Reset the no results error flag
+      });
     } else {
       this.setState(
-        { images: [], currentPage: 1, searchQuery, searchQueryError: false },
+        {
+          images: [],
+          currentPage: 1,
+          searchQuery,
+          searchQueryError: false,
+          noResultsError: false, // Reset the no results error flag
+        },
         () => {
           this.fetchImages(searchQuery);
         }
@@ -55,9 +58,14 @@ class App extends Component {
       const response = await axios.get(
         `${BASE_URL}?q=${searchQuery}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
       );
-      this.setState(prevState => ({
-        images: [...prevState.images, ...response.data.hits],
-      }));
+      if (response.data.hits.length === 0) {
+        // No results found
+        this.setState({ noResultsError: true });
+      } else {
+        this.setState(prevState => ({
+          images: [...prevState.images, ...response.data.hits],
+        }));
+      }
     } catch (error) {
       console.log('Error fetching images:', error);
     } finally {
@@ -81,13 +89,20 @@ class App extends Component {
   };
 
   render() {
-    const { images, isLoading, showModal, selectedImage, searchQueryError } =
-      this.state;
+    const {
+      images,
+      isLoading,
+      showModal,
+      selectedImage,
+      searchQueryError,
+      noResultsError,
+    } = this.state;
 
     return (
       <AppContainer>
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
         {searchQueryError && <p>Please enter a search term.</p>}
+        {noResultsError && <p>No results found.</p>}
         {images.length > 0 && (
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
