@@ -9,6 +9,7 @@ import Modal from './Modal';
 
 const API_KEY = '35140926-fd12774c1839d7d0854ca625c';
 const BASE_URL = 'https://pixabay.com/api/';
+const IMAGES_PER_PAGE = 15;
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
       searchQuery: '',
       images: [],
       currentPage: 1,
+      totalHits: 0,
       isLoading: false,
       showModal: false,
       selectedImage: '',
@@ -33,6 +35,7 @@ class App extends Component {
       this.setState({
         images: [],
         currentPage: 1,
+        totalHits: 0,
         searchQueryError: true,
         noResultsError: false, // Reset the no results error flag
       });
@@ -41,6 +44,7 @@ class App extends Component {
         {
           images: [],
           currentPage: 1,
+          totalHits: 0,
           searchQuery,
           searchQueryError: false,
           noResultsError: false, // Reset the no results error flag
@@ -56,7 +60,7 @@ class App extends Component {
     try {
       this.setState({ isLoading: true });
       const response = await axios.get(
-        `${BASE_URL}?q=${searchQuery}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=15`
+        `${BASE_URL}?q=${searchQuery}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${IMAGES_PER_PAGE}`
       );
       if (response.data.hits.length === 0) {
         // No results found
@@ -64,6 +68,7 @@ class App extends Component {
       } else {
         this.setState(prevState => ({
           images: [...prevState.images, ...response.data.hits],
+          totalHits: response.data.totalHits,
         }));
       }
     } catch (error) {
@@ -76,7 +81,13 @@ class App extends Component {
   handleLoadMore = () => {
     this.setState(
       prevState => ({ currentPage: prevState.currentPage + 1 }),
-      () => this.fetchImages(this.state.searchQuery)
+      () => {
+        const { currentPage, totalHits } = this.state;
+        const totalPages = Math.ceil(totalHits / IMAGES_PER_PAGE);
+        if (currentPage <= totalPages) {
+          this.fetchImages(this.state.searchQuery);
+        }
+      }
     );
   };
 
@@ -96,9 +107,12 @@ class App extends Component {
       selectedImage,
       searchQueryError,
       noResultsError,
+      currentPage,
+      totalHits,
     } = this.state;
 
-    const showLoadMoreButton = images.length >= 15; // Check if there are 15 or more images
+    const showLoadMoreButton =
+      currentPage < Math.ceil(totalHits / IMAGES_PER_PAGE); // Check if there are more pages to load
 
     return (
       <AppContainer>
