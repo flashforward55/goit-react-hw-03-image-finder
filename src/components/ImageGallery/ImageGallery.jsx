@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ImageGalleryContainer, ImageGalleryList } from './ImageGallery.styled';
+import { ImageGalleryList } from './ImageGallery.styled';
 import ImageGalleryItem from './ImageGalleryItem';
 
 class ImageGallery extends Component {
@@ -8,17 +8,15 @@ class ImageGallery extends Component {
     const { images, onImageClick } = this.props;
 
     return (
-      <ImageGalleryContainer>
-        <ImageGalleryList>
-          {images.map(image => (
-            <ImageGalleryItem
-              key={image.id}
-              image={image}
-              onImageClick={onImageClick}
-            />
-          ))}
-        </ImageGalleryList>
-      </ImageGalleryContainer>
+      <ImageGalleryList>
+        {images.map(image => (
+          <ImageGalleryItem
+            key={image.id}
+            image={image}
+            onImageClick={onImageClick}
+          />
+        ))}
+      </ImageGalleryList>
     );
   }
 }
