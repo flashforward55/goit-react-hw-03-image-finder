@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
 import axios from 'axios';
-
+import { AppContainer } from './App.styled';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
@@ -95,12 +93,4 @@ class App extends Component {
   }
 }
 
-// Остальные компоненты остаются без изменений
-
 export default App;
-const AppContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 16px;
-  padding-bottom: 24px;
-`;
