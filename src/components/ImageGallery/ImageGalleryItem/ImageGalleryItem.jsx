@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  ImageGalleryItemContainer,
-  ImageGalleryItemImage,
-} from './ImageGalleryItem.styled';
+import { ImageGalleryItemImage } from './ImageGalleryItem.styled';
 
 const ImageGalleryItem = ({ image, onImageClick }) => {
   const handleClick = () => {
@@ -10,13 +7,11 @@ const ImageGalleryItem = ({ image, onImageClick }) => {
   };
 
   return (
-    <ImageGalleryItemContainer className="gallery-item">
-      <ImageGalleryItemImage
-        src={image.webformatURL}
-        alt=""
-        onClick={handleClick}
-      />
-    </ImageGalleryItemContainer>
+    <ImageGalleryItemImage
+      src={image.webformatURL}
+      alt=""
+      onClick={handleClick}
+    />
   );
 };
 
@@ -29,4 +24,4 @@ ImageGalleryItem.propTypes = {
   onImageClick: PropTypes.func.isRequired,
 };
 
-export default ImageGalleryItem
+export default ImageGalleryItem;
