@@ -6,7 +6,7 @@ import axios from 'axios';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import { Button } from './Button';
-import { Loader } from './Loader';
+import { Loader } from './Loader/Loader';
 import { Modal } from './Modal';
 
 const API_KEY = '35140926-fd12774c1839d7d0854ca625c';

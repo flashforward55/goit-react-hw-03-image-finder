@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Bars } from 'react-loader-spinner';
-import styled from 'styled-components';
-
-const LoaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
+import { LoaderWrapper } from './Loader.styled';
 
 export const Loader = ({ type, color, height, width }) => (
   <LoaderWrapper>
