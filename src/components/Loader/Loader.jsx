@@ -22,3 +22,5 @@ Loader.defaultProps = {
   height: 80,
   width: 80,
 };
+
+export default Loader

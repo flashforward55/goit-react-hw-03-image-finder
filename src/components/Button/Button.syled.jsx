@@ -1,16 +1,7 @@
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-export const Button = ({ onLoadMore }) => {
-  return (
-    <ButtononLoadMore type="button" onClick={onLoadMore}>
-      Load more
-    </ButtononLoadMore>
-  );
-};
-
 // Компонент Button (Load more)
-const ButtononLoadMore = styled.button`
+export const ButtononLoadMore = styled.button`
   padding: 8px 16px;
   border-radius: 2px;
   background-color: #3f51b5;
@@ -35,7 +26,3 @@ const ButtononLoadMore = styled.button`
     background-color: #303f9f;
   }
 `;
-
-Button.propTypes = {
-  onLoadMore: PropTypes.func.isRequired,
-};
