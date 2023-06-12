@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {
-  SearchbarContainer,
-  SearchForm,
-  SearchButton,
-  SearchInput,
-  SearchButtonLabel,
-} from './Searchbar.styled';
-import { ImageGalleryContainer, ImageGalleryList } from './ImageGallery.styled';
 
+import { ImageGalleryContainer, ImageGalleryList } from './ImageGallery.styled';
+import Searchbar from './Searchbar';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { Button } from './Button';
 import { Loader } from './Loader';
@@ -101,34 +95,6 @@ class App extends Component {
     );
   }
 }
-
-class Searchbar extends Component {
-  render() {
-    const { onSubmit, isLoading } = this.props;
-
-    return (
-      <SearchbarContainer>
-        <SearchForm onSubmit={onSubmit}>
-          <SearchButton type="submit" disabled={isLoading}>
-            <SearchButtonLabel>Search</SearchButtonLabel>
-          </SearchButton>
-          <SearchInput
-            type="text"
-            name="searchQuery"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </SearchForm>
-      </SearchbarContainer>
-    );
-  }
-}
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};
 
 class ImageGallery extends Component {
   render() {
