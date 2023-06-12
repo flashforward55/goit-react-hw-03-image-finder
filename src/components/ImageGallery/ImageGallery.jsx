@@ -4,11 +4,27 @@ import { ImageGalleryList } from './ImageGallery.styled';
 import ImageGalleryItem from './ImageGalleryItem';
 
 class ImageGallery extends Component {
+  componentDidUpdate(prevProps) {
+    if (prevProps.images.length !== this.props.images.length) {
+      this.smoothPageScrolling();
+    }
+  }
+  smoothPageScrolling() {
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    const scrollAmount = cardHeight * 2;
+    window.scrollBy({
+      top: scrollAmount,
+      behavior: 'smooth',
+    });
+  }
   render() {
     const { images, onImageClick } = this.props;
 
     return (
-      <ImageGalleryList>
+      <ImageGalleryList className="gallery">
         {images.map(image => (
           <ImageGalleryItem
             key={image.id}
