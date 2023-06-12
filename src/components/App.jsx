@@ -21,6 +21,7 @@ class App extends Component {
       isLoading: false,
       showModal: false,
       selectedImage: '',
+      searchQueryError: false, // Флаг ошибки пустого поля поиска
     };
   }
 
@@ -34,8 +35,18 @@ class App extends Component {
 
   handleSearchSubmit = e => {
     e.preventDefault();
-    this.setState({ images: [], currentPage: 1 });
-    this.fetchImages(e.target.elements.searchQuery.value);
+    const searchQuery = e.target.elements.searchQuery.value.trim(); // Убираем лишние пробелы
+    if (searchQuery === '') {
+      // Если поле поиска пустое, устанавливаем флаг ошибки
+      this.setState({ images: [], currentPage: 1, searchQueryError: true });
+    } else {
+      this.setState(
+        { images: [], currentPage: 1, searchQuery, searchQueryError: false },
+        () => {
+          this.fetchImages(searchQuery);
+        }
+      );
+    }
   };
 
   fetchImages = async searchQuery => {
@@ -70,11 +81,13 @@ class App extends Component {
   };
 
   render() {
-    const { images, isLoading, showModal, selectedImage } = this.state;
+    const { images, isLoading, showModal, selectedImage, searchQueryError } =
+      this.state;
 
     return (
       <AppContainer>
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
+        {searchQueryError && <p>Please enter a search term.</p>}
         {images.length > 0 && (
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
