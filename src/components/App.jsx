@@ -49,6 +49,7 @@ class App extends Component {
           searchQuery,
           searchQueryError: false,
           noResultsError: false, // Reset the no results error flag
+          loaderHeight: '100vh',
         },
         () => {
           this.fetchImages(searchQuery);
