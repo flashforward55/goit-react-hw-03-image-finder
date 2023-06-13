@@ -6,7 +6,7 @@ import {
 
 const ImageGalleryItem = ({ image, onImageClick }) => {
   const handleClick = () => {
-    onImageClick(image.largeImageURL);
+    onImageClick(image.largeImageURL, image.tags);
   };
 
   return (

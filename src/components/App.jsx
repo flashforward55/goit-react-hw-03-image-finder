@@ -23,6 +23,7 @@ class App extends Component {
       isLoading: false,
       showModal: false,
       selectedImage: '',
+      selectedTags: '',
       searchQueryError: false,
       noResultsError: false, // Flag for no results error
       loaderHeight: '100vh', // Initial loader height
@@ -97,12 +98,16 @@ class App extends Component {
     this.setState({ loaderHeight: '5vh' }); // Update the loader height
   };
 
-  handleImageClick = imageUrl => {
-    this.setState({ selectedImage: imageUrl, showModal: true });
+  handleImageClick = (imageUrl, imageTags) => {
+    this.setState({
+      selectedImage: imageUrl,
+      selectedTags: imageTags,
+      showModal: true,
+    });
   };
 
   handleCloseModal = () => {
-    this.setState({ showModal: false, selectedImage: '' });
+    this.setState({ showModal: false, selectedImage: '', selectedTags: '' });
   };
 
   render() {
@@ -111,6 +116,7 @@ class App extends Component {
       isLoading,
       showModal,
       selectedImage,
+      selectedTags,
       searchQueryError,
       noResultsError,
       currentPage,
@@ -136,6 +142,7 @@ class App extends Component {
         {showModal && (
           <Modal
             imageUrl={selectedImage}
+            imageTags={selectedTags}
             onCloseModal={this.handleCloseModal}
           />
         )}
