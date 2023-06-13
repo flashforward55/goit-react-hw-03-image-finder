@@ -13,7 +13,7 @@ const ImageGalleryItem = ({ image, onImageClick }) => {
     <ImageGalleryContainer>
       <ImageGalleryItemImage
         src={image.webformatURL}
-        alt=""
+        alt={image.tags}
         onClick={handleClick}
       />
     </ImageGalleryContainer>
