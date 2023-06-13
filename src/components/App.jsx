@@ -25,6 +25,7 @@ class App extends Component {
       selectedImage: '',
       searchQueryError: false,
       noResultsError: false, // Flag for no results error
+      loaderHeight: '100vh', // Initial loader height
     };
   }
 
@@ -80,7 +81,10 @@ class App extends Component {
 
   handleLoadMore = () => {
     this.setState(
-      prevState => ({ currentPage: prevState.currentPage + 1 }),
+      prevState => ({
+        currentPage: prevState.currentPage + 1,
+        isLoading: true,
+      }),
       () => {
         const { currentPage, totalHits } = this.state;
         const totalPages = Math.ceil(totalHits / IMAGES_PER_PAGE);
@@ -89,6 +93,7 @@ class App extends Component {
         }
       }
     );
+    this.setState({ loaderHeight: '5vh' }); // Update the loader height
   };
 
   handleImageClick = imageUrl => {
@@ -109,6 +114,7 @@ class App extends Component {
       noResultsError,
       currentPage,
       totalHits,
+      loaderHeight,
     } = this.state;
 
     const showLoadMoreButton =
@@ -122,7 +128,7 @@ class App extends Component {
         {images.length > 0 && (
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
-        {isLoading && <Loader />}
+        {isLoading && <Loader height={loaderHeight} />}
         {showLoadMoreButton && !isLoading && (
           <Button onLoadMore={this.handleLoadMore} />
         )}

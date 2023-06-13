@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { ButtononLoadMore, ButtononLoadMoreFlex } from './Button.syled';
+import { ButtononLoadMore, ButtonWrapper } from './Button.syled';
 
 const Button = ({ onLoadMore }) => {
   return (
-    <ButtononLoadMoreFlex>
+    <ButtonWrapper>
       <ButtononLoadMore type="button" onClick={onLoadMore}>
         Load more
       </ButtononLoadMore>
-    </ButtononLoadMoreFlex>
+    </ButtonWrapper>
   );
 };
 

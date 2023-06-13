@@ -27,7 +27,9 @@ export const ButtononLoadMore = styled.button`
   }
 `;
 
-export const ButtononLoadMoreFlex = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

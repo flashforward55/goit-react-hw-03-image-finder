@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Bars } from 'react-loader-spinner';
 import { LoaderWrapper } from './Loader.styled';
 
-export const Loader = ({ type, color, height, width }) => (
-  <LoaderWrapper>
+export const Loader = ({ type, color, height, width, loaderHeight }) => (
+  <LoaderWrapper height={loaderHeight}>
     <Bars type={type} color={color} height={height} width={width} />
   </LoaderWrapper>
 );
@@ -12,15 +12,15 @@ export const Loader = ({ type, color, height, width }) => (
 Loader.propTypes = {
   type: PropTypes.string,
   color: PropTypes.string,
-  height: PropTypes.number,
-  width: PropTypes.number,
+  height: PropTypes.string,
+  width: PropTypes.string,
 };
 
 Loader.defaultProps = {
   type: 'TailSpin',
   color: '#3f51b5',
-  height: 80,
-  width: 80,
+  height: '80',
+  width: '80',
 };
 
-export default Loader
+export default Loader;
