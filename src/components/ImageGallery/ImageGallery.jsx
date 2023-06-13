@@ -14,7 +14,7 @@ class ImageGallery extends Component {
       .querySelector('.gallery')
       .firstElementChild.getBoundingClientRect();
 
-    const scrollAmount = cardHeight * 2;
+    const scrollAmount = cardHeight * 2.7;
     window.scrollBy({
       top: scrollAmount,
       behavior: 'smooth',
