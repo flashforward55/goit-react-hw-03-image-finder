@@ -4,16 +4,17 @@ import { Bars } from 'react-loader-spinner';
 import { LoaderWrapper } from './Loader.styled';
 
 export const Loader = ({ type, color, height, width, loaderHeight }) => (
-  <LoaderWrapper height={loaderHeight}>
+  <LoaderWrapper loaderHeight={loaderHeight}>
     <Bars type={type} color={color} height={height} width={width} />
   </LoaderWrapper>
 );
 
 Loader.propTypes = {
-  type: PropTypes.string,
-  color: PropTypes.string,
-  height: PropTypes.string,
-  width: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
+  loaderHeight: PropTypes.string,
 };
 
 Loader.defaultProps = {

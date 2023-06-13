@@ -4,5 +4,5 @@ export const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${props => props.height}; /* Use the provided height prop */
+  height: ${props => props.loaderHeight}; /* Use the provided height prop */
 `;
