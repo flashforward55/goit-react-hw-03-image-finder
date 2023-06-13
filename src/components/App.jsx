@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { AppContainer } from './App.styled';
+import { AppContainer, Message } from './App.styled';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
@@ -129,13 +129,14 @@ class App extends Component {
 
     const showLoadMoreButton =
       currentPage < Math.ceil(totalHits / IMAGES_PER_PAGE); // Check if there are more pages to load
+    const isLastPage = !showLoadMoreButton && currentPage !== 1; // Check if it's the last page
 
     return (
       <AppContainer>
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
-        {searchQueryError && <p>Please enter a search term.</p>}
-        {noResultsError && <p>No results found.</p>}
-        {errorFetchingImages && <p>Error fetching images.</p>}
+        {searchQueryError && <Message>Please enter a search term.</Message>}
+        {noResultsError && <Message>No results found.</Message>}
+        {errorFetchingImages && <Message>Error fetching images.</Message>}
         {images.length > 0 && (
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
@@ -143,6 +144,7 @@ class App extends Component {
         {showLoadMoreButton && !isLoading && (
           <Button onLoadMore={this.handleLoadMore} />
         )}
+        {isLastPage && <Message>Reached the last page of images</Message>}
         {showModal && (
           <Modal
             imageUrl={selectedImage}
