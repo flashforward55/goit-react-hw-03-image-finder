@@ -26,6 +26,7 @@ class App extends Component {
       selectedTags: '',
       searchQueryError: false,
       noResultsError: false, // Flag for no results error
+      errorFetchingImages: false,
       loaderHeight: '100vh', // Initial loader height
     };
   }
@@ -75,6 +76,7 @@ class App extends Component {
         }));
       }
     } catch (error) {
+      this.setState({ errorFetchingImages: true });
       console.log('Error fetching images:', error);
     } finally {
       this.setState({ isLoading: false });
@@ -119,6 +121,7 @@ class App extends Component {
       selectedTags,
       searchQueryError,
       noResultsError,
+      errorFetchingImages,
       currentPage,
       totalHits,
       loaderHeight,
@@ -132,6 +135,7 @@ class App extends Component {
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
         {searchQueryError && <p>Please enter a search term.</p>}
         {noResultsError && <p>No results found.</p>}
+        {errorFetchingImages && <p>Error fetching images.</p>}
         {images.length > 0 && (
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
