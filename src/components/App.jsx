@@ -31,6 +31,15 @@ class App extends Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.searchQuery !== this.state.searchQuery ||
+      prevState.currentPage !== this.state.currentPage
+    ) {
+      this.fetchImages();
+    }
+  }
+
   handleSearchSubmit = e => {
     e.preventDefault();
     const searchQuery = e.target.elements.searchQuery.value.trim();
@@ -43,24 +52,20 @@ class App extends Component {
         noResultsError: false, // Reset the no results error flag
       });
     } else {
-      this.setState(
-        {
-          images: [],
-          currentPage: 1,
-          totalHits: 0,
-          searchQuery,
-          searchQueryError: false,
-          noResultsError: false, // Reset the no results error flag
-          loaderHeight: '100vh',
-        },
-        () => {
-          this.fetchImages(searchQuery);
-        }
-      );
+      this.setState({
+        images: [],
+        currentPage: 1,
+        totalHits: 0,
+        searchQuery,
+        searchQueryError: false,
+        noResultsError: false, // Reset the no results error flag
+        loaderHeight: '100vh',
+      });
     }
   };
 
-  fetchImages = async searchQuery => {
+  fetchImages = async () => {
+    const { searchQuery } = this.state;
     try {
       this.setState({ isLoading: true });
       const response = await axios.get(
@@ -70,8 +75,9 @@ class App extends Component {
         // No results found
         this.setState({ noResultsError: true });
       } else {
+        const uniqueImages = this.getUniqueImages(response.data.hits);
         this.setState(prevState => ({
-          images: [...prevState.images, ...response.data.hits],
+          images: [...prevState.images, ...uniqueImages],
           totalHits: response.data.totalHits,
         }));
       }
@@ -83,20 +89,17 @@ class App extends Component {
     }
   };
 
+  getUniqueImages = newImages => {
+    const { images } = this.state;
+    const uniqueImageIds = new Set(images.map(image => image.id));
+    return newImages.filter(image => !uniqueImageIds.has(image.id));
+  };
+
   handleLoadMore = () => {
-    this.setState(
-      prevState => ({
-        currentPage: prevState.currentPage + 1,
-        isLoading: true,
-      }),
-      () => {
-        const { currentPage, totalHits } = this.state;
-        const totalPages = Math.ceil(totalHits / IMAGES_PER_PAGE);
-        if (currentPage <= totalPages) {
-          this.fetchImages(this.state.searchQuery);
-        }
-      }
-    );
+    this.setState(prevState => ({
+      currentPage: prevState.currentPage + 1,
+      isLoading: true,
+    }));
     this.setState({ loaderHeight: '5vh' }); // Update the loader height
   };
 
@@ -156,5 +159,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
