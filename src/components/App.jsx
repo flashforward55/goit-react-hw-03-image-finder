@@ -69,9 +69,8 @@ class App extends Component {
       if (response.hits.length === 0) {
         this.setState({ noResultsError: true });
       } else {
-        const uniqueImages = this.getUniqueImages(response.hits);
         this.setState(prevState => ({
-          images: [...prevState.images, ...uniqueImages],
+          images: [...prevState.images, ...response.hits],
           totalHits: response.totalHits,
         }));
       }
@@ -81,15 +80,6 @@ class App extends Component {
     } finally {
       this.setState({ isLoading: false });
     }
-  };
-
-  getUniqueImages = newImages => {
-    const { images } = this.state;
-    const uniqueImageIds = new Set(images.map(image => image.id));
-    const uniqueImages = newImages.filter(
-      image => !uniqueImageIds.has(image.id)
-    );
-    return uniqueImages;
   };
 
   handleLoadMore = () => {
