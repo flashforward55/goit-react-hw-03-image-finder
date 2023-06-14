@@ -67,7 +67,6 @@ class App extends Component {
       this.setState({ isLoading: true });
       const response = await fetchImagesFromServer(searchQuery, currentPage);
       if (response.hits.length === 0) {
-        // No results found
         this.setState({ noResultsError: true });
       } else {
         const uniqueImages = this.getUniqueImages(response.hits);
