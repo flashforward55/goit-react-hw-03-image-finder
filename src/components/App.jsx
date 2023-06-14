@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { AppContainer, Message } from './App.styled';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Loader from './Loader';
 import Modal from './Modal';
+import { fetchImages } from '../services/api';
 
-const API_KEY = '35140926-fd12774c1839d7d0854ca625c';
-const BASE_URL = 'https://pixabay.com/api/';
 const IMAGES_PER_PAGE = 15;
 
 class App extends Component {
-  state = {
-    searchQuery: '',
-    images: [],
-    currentPage: 1,
-    totalHits: 0,
-    isLoading: false,
-    showModal: false,
-    selectedImage: '',
-    selectedTags: '',
-    searchQueryError: false,
-    noResultsError: false, // Flag for no results error
-    errorFetchingImages: false,
-    loaderHeight: '100vh', // Initial loader height
-  };
+  constructor(props) {
+    super(props);
 
-  componentDidUpdate(_, prevState) {
+    this.state = {
+      searchQuery: '',
+      images: [],
+      currentPage: 1,
+      totalHits: 0,
+      isLoading: false,
+      showModal: false,
+      selectedImage: '',
+      selectedTags: '',
+      searchQueryError: false,
+      noResultsError: false, // Flag for no results error
+      errorFetchingImages: false,
+      loaderHeight: '100vh', // Initial loader height
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     if (
       prevState.searchQuery !== this.state.searchQuery ||
       prevState.currentPage !== this.state.currentPage
@@ -61,20 +63,18 @@ class App extends Component {
   };
 
   fetchImages = async () => {
-    const { searchQuery } = this.state;
+    const { searchQuery, currentPage } = this.state;
     try {
       this.setState({ isLoading: true });
-      const response = await axios.get(
-        `${BASE_URL}?q=${searchQuery}&page=${this.state.currentPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${IMAGES_PER_PAGE}`
-      );
-      if (response.data.hits.length === 0) {
+      const response = await fetchImages(searchQuery, currentPage);
+      if (response.hits.length === 0) {
         // No results found
         this.setState({ noResultsError: true });
       } else {
-        const uniqueImages = this.getUniqueImages(response.data.hits);
+        const uniqueImages = this.getUniqueImages(response.hits);
         this.setState(prevState => ({
           images: [...prevState.images, ...uniqueImages],
-          totalHits: response.data.totalHits,
+          totalHits: response.totalHits,
         }));
       }
     } catch (error) {
@@ -88,7 +88,10 @@ class App extends Component {
   getUniqueImages = newImages => {
     const { images } = this.state;
     const uniqueImageIds = new Set(images.map(image => image.id));
-    return newImages.filter(image => !uniqueImageIds.has(image.id));
+    const uniqueImages = newImages.filter(
+      image => !uniqueImageIds.has(image.id)
+    );
+    return uniqueImages;
   };
 
   handleLoadMore = () => {
@@ -155,4 +158,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
