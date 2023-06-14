@@ -10,24 +10,20 @@ import { fetchImages } from '../services/api';
 const IMAGES_PER_PAGE = 15;
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchQuery: '',
-      images: [],
-      currentPage: 1,
-      totalHits: 0,
-      isLoading: false,
-      showModal: false,
-      selectedImage: '',
-      selectedTags: '',
-      searchQueryError: false,
-      noResultsError: false, // Flag for no results error
-      errorFetchingImages: false,
-      loaderHeight: '100vh', // Initial loader height
-    };
-  }
+  state = {
+    searchQuery: '',
+    images: [],
+    currentPage: 1,
+    totalHits: 0,
+    isLoading: false,
+    showModal: false,
+    selectedImage: '',
+    selectedTags: '',
+    searchQueryError: false,
+    noResultsError: false,
+    errorFetchingImages: false,
+    loaderHeight: '100vh',
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -47,7 +43,7 @@ class App extends Component {
         currentPage: 1,
         totalHits: 0,
         searchQueryError: true,
-        noResultsError: false, // Reset the no results error flag
+        noResultsError: false,
       });
     } else {
       this.setState({
@@ -56,7 +52,7 @@ class App extends Component {
         totalHits: 0,
         searchQuery,
         searchQueryError: false,
-        noResultsError: false, // Reset the no results error flag
+        noResultsError: false,
         loaderHeight: '100vh',
       });
     }
@@ -99,7 +95,7 @@ class App extends Component {
       currentPage: prevState.currentPage + 1,
       isLoading: true,
     }));
-    this.setState({ loaderHeight: '5vh' }); // Update the loader height
+    this.setState({ loaderHeight: '5vh' });
   };
 
   handleImageClick = (imageUrl, imageTags) => {
@@ -130,15 +126,15 @@ class App extends Component {
     } = this.state;
 
     const showLoadMoreButton =
-      currentPage < Math.ceil(totalHits / IMAGES_PER_PAGE); // Check if there are more pages to load
-    const isLastPage = !showLoadMoreButton && currentPage !== 1; // Check if it's the last page
+      currentPage < Math.ceil(totalHits / IMAGES_PER_PAGE);
+    const isLastPage = !showLoadMoreButton && currentPage !== 1;
 
     return (
       <AppContainer>
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
-        {searchQueryError && <Message>Please enter a search term.</Message>}
-        {noResultsError && <Message>No results found.</Message>}
-        {errorFetchingImages && <Message>Error fetching images.</Message>}
+        {searchQueryError && <Message>Please enter a search term</Message>}
+        {noResultsError && <Message>No results found</Message>}
+        {errorFetchingImages && <Message>Error fetching images</Message>}
         {images.length > 0 && (
           <ImageGallery images={images} onImageClick={this.handleImageClick} />
         )}
