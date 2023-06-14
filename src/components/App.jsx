@@ -5,9 +5,7 @@ import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Loader from './Loader';
 import Modal from './Modal';
-import { fetchImagesFromServer } from '../services/api';
-
-const IMAGES_PER_PAGE = 15;
+import { fetchImagesFromServer, IMAGES_PER_PAGE } from '../services/api';
 
 class App extends Component {
   state = {
