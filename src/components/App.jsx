@@ -5,7 +5,7 @@ import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Loader from './Loader';
 import Modal from './Modal';
-import { fetchImages } from '../services/api';
+import { fetchImagesFromServer } from '../services/api';
 
 const IMAGES_PER_PAGE = 15;
 
@@ -25,7 +25,7 @@ class App extends Component {
     loaderHeight: '100vh',
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       prevState.searchQuery !== this.state.searchQuery ||
       prevState.currentPage !== this.state.currentPage
@@ -62,7 +62,7 @@ class App extends Component {
     const { searchQuery, currentPage } = this.state;
     try {
       this.setState({ isLoading: true });
-      const response = await fetchImages(searchQuery, currentPage);
+      const response = await fetchImagesFromServer(searchQuery, currentPage);
       if (response.hits.length === 0) {
         // No results found
         this.setState({ noResultsError: true });
