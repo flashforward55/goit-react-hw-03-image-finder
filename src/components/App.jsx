@@ -21,7 +21,12 @@ class App extends Component {
     noResultsError: false,
     errorFetchingImages: false,
     loaderHeight: '100vh',
+    isInitialLoad: true,
   };
+
+  componentDidMount() {
+    this.setState({ isInitialLoad: false });
+  }
 
   componentDidUpdate(_, prevState) {
     if (
@@ -121,6 +126,7 @@ class App extends Component {
       currentPage,
       totalHits,
       loaderHeight,
+      isInitialLoad,
     } = this.state;
 
     const showLoadMoreButton =
@@ -130,23 +136,30 @@ class App extends Component {
     return (
       <AppContainer>
         <Searchbar onSubmit={this.handleSearchSubmit} isLoading={isLoading} />
-        {searchQueryError && <Message>Please enter a search term</Message>}
-        {noResultsError && <Message>No results found</Message>}
-        {errorFetchingImages && <Message>Error fetching images</Message>}
-        {images.length > 0 && (
-          <ImageGallery images={images} onImageClick={this.handleImageClick} />
-        )}
-        {isLoading && <Loader height={loaderHeight} />}
-        {showLoadMoreButton && !isLoading && (
-          <Button onLoadMore={this.handleLoadMore} />
-        )}
-        {isLastPage && <Message>Reached the last page of images</Message>}
-        {showModal && (
-          <Modal
-            imageUrl={selectedImage}
-            imageTags={selectedTags}
-            onCloseModal={this.handleCloseModal}
-          />
+        {!isInitialLoad && (
+          <>
+            {searchQueryError && <Message>Please enter a search term</Message>}
+            {noResultsError && <Message>No results found</Message>}
+            {errorFetchingImages && <Message>Error fetching images</Message>}
+            {images.length > 0 && (
+              <ImageGallery
+                images={images}
+                onImageClick={this.handleImageClick}
+              />
+            )}
+            {isLoading && <Loader height={loaderHeight} />}
+            {showLoadMoreButton && !isLoading && (
+              <Button onLoadMore={this.handleLoadMore} />
+            )}
+            {isLastPage && <Message>Reached the last page of images</Message>}
+            {showModal && (
+              <Modal
+                imageUrl={selectedImage}
+                imageTags={selectedTags}
+                onCloseModal={this.handleCloseModal}
+              />
+            )}
+          </>
         )}
       </AppContainer>
     );
