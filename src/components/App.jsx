@@ -12,24 +12,20 @@ const BASE_URL = 'https://pixabay.com/api/';
 const IMAGES_PER_PAGE = 15;
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchQuery: '',
-      images: [],
-      currentPage: 1,
-      totalHits: 0,
-      isLoading: false,
-      showModal: false,
-      selectedImage: '',
-      selectedTags: '',
-      searchQueryError: false,
-      noResultsError: false, // Flag for no results error
-      errorFetchingImages: false,
-      loaderHeight: '100vh', // Initial loader height
-    };
-  }
+  state = {
+    searchQuery: '',
+    images: [],
+    currentPage: 1,
+    totalHits: 0,
+    isLoading: false,
+    showModal: false,
+    selectedImage: '',
+    selectedTags: '',
+    searchQueryError: false,
+    noResultsError: false, // Flag for no results error
+    errorFetchingImages: false,
+    loaderHeight: '100vh', // Initial loader height
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (
