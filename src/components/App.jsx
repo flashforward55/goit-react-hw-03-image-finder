@@ -27,7 +27,7 @@ class App extends Component {
     loaderHeight: '100vh', // Initial loader height
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       prevState.searchQuery !== this.state.searchQuery ||
       prevState.currentPage !== this.state.currentPage
